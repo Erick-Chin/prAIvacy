@@ -8,6 +8,11 @@
     <PackageReference Include="SixLabors.ImageSharp" Version="3.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="input_images\input.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>

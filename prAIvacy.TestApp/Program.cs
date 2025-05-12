@@ -9,61 +9,49 @@ class Program
 {
     static void Main()
     {
-        string inputPath = "input.jpg";
+        string inputFolder = "input_images";
+        string outputFolder = "output_images";
 
-        if (!File.Exists(inputPath))
+        if (!Directory.Exists(inputFolder))
         {
-            Console.WriteLine($"❌ File not found: {inputPath}");
+            Console.WriteLine($"❌ Input folder not found: {inputFolder}");
             return;
         }
 
-        using Image<Rgba32> image = Image.Load<Rgba32>(inputPath);
+        if (!Directory.Exists(outputFolder))
+        {
+            Directory.CreateDirectory(outputFolder);
+        }
+
+        string[] imageFiles = Directory.GetFiles(inputFolder, "*.jpg"); // You can extend to *.png, etc.
+
+        if (imageFiles.Length == 0)
+        {
+            Console.WriteLine("⚠️ No image files found in input folder.");
+            return;
+        }
 
         var processor = new ImageProcessor();
-
-        // Add your filters here
-        //processor.AddFilter(new NoiseFilter(0.3f));
+        processor.AddFilter(new NoiseFilter(0.3f));
         processor.AddFilter(new AdversarialNoiseFilter(0.9f));
         processor.AddFilter(new AdversarialWaveFilter(8f, 0.05f));
 
-        processor.ListFilters();
+        Console.WriteLine($"🔄 Processing {imageFiles.Length} images...\n");
 
-        Console.Write("Enter filter number to apply (or press Enter to apply ALL): ");
-        string? input = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(input))
+        foreach (var imagePath in imageFiles)
         {
-            // Apply all filters
+            using Image<Rgba32> image = Image.Load<Rgba32>(imagePath);
+
             processor.ApplyAll(image);
 
-            string fileName = "output-AllFilters.jpg";
-            image.Save(fileName);
-            Console.WriteLine($"✅ Saved as: {fileName}");
-        }
-        else if (int.TryParse(input, out int index))
-        {
-            string? filterName = processor.ApplyFilterByIndex(image, index);
+            string fileName = Path.GetFileNameWithoutExtension(imagePath);
+            string extension = Path.GetExtension(imagePath);
+            string outputPath = Path.Combine(outputFolder, $"{fileName}_filtered{extension}");
 
-            if (!string.IsNullOrEmpty(filterName))
-            {
-                string outputPath = $"output-{SanitizeFileName(filterName)}.jpg";
-                image.Save(outputPath);
-                Console.WriteLine($"✅ Saved as: {outputPath}");
-            }
+            image.Save(outputPath);
+            Console.WriteLine($"✅ Saved: {outputPath}");
         }
-        else
-        {
-            Console.WriteLine("❌ Invalid input.");
-        }
-    }
 
-    // Helper to make filter names filename-safe
-    static string SanitizeFileName(string name)
-    {
-        foreach (char c in Path.GetInvalidFileNameChars())
-        {
-            name = name.Replace(c, '_');
-        }
-        return name.Replace(" ", "_");
+        Console.WriteLine("\n🎉 Batch filtering complete.");
     }
 }
