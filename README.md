@@ -1,5 +1,7 @@
 2025SP-INFOTC-4400
 # prAIvacy – Anti-AI Image Protection Tool
+	•	Eric Chin
+	•	Sathwik Jupalli
 
 ## Overview
 
