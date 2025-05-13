@@ -31,10 +31,14 @@ class Program
             return;
         }
 
+        // Normalize slider value (example: assume slider value is 5)
+        double sliderValue = 5; // Replace this with the actual slider value from your UI
+        float normalizedIntensity = (float)(sliderValue / 10.0); // Normalize to 0–1
+
         var processor = new ImageProcessor();
-        processor.AddFilter(new NoiseFilter(0.3f));
-        processor.AddFilter(new AdversarialNoiseFilter(0.9f));
-        processor.AddFilter(new AdversarialWaveFilter(8f, 0.05f));
+        //processor.AddFilter(new NoiseFilter(normalizedIntensity));
+        processor.AddFilter(new AdversarialNoiseFilter(normalizedIntensity));
+        processor.AddFilter(new AdversarialWaveFilter(8f, normalizedIntensity));
 
         Console.WriteLine($"🔄 Processing {imageFiles.Length} images...\n");
 
