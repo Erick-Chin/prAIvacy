@@ -70,3 +70,52 @@ The frontend built with WPF to preview, adjust, and export filtered images.
 ```bash
 cd Core
 dotnet run
+
+
+
+prAIvacy – Anti-AI Image Protection Tool
+Developers:
+•	Eric Chin
+•	Sathwik Jupalli
+---
+Overview
+prAIvacy is a Windows desktop application designed to help users protect their personal images from being scraped or misused by AI systems. By applying privacy-preserving filters, such as adversarial noise and anti-aliasing disruption, the tool misleads AI classifiers while ensuring the images remain viewable by humans.
+The project is inspired by cutting-edge adversarial defense research, including Nightshade and Fawkes, developed at the University of Chicago.
+---
+Features
+Current Features
+•	Load and Display Images: Users can select and preview images for processing.
+•	Live Filter Previews: Adjustable sliders allow users to preview filter effects in real-time.
+•	Adversarial Filters: Includes advanced filters like adversarial noise and wave-based disruptions.
+•	Batch Processing: Process multiple images at once with consistent filter settings.
+•	Export Filtered Images: Save processed images to a specified output folder.
+•	Error Logging: Displays logs for successful and failed image processing tasks.
+Planned Features
+•	Mock AI Classifier: Simulate AI detection scores before and after applying filters.
+•	Filter Presets: Provide predefined privacy modes for quick application.
+•	Log Exporting: Save logs of processed images and applied filters.
+---
+Architecture
+The application is divided into two main components:
+Core (Cross-platform, C# .NET)
+Handles all image processing and logic. This component is designed to be platform-independent and can be tested on macOS or Linux.
+•	ImageProcessor.cs: Manages the application of filters in a chain.
+•	Filters/: Implements IImageFilter for filters like Adversarial Noise and Wave Disruption.
+•	BatchProcessor.cs: Handles batch processing of image folders.
+•	Logger.cs: Logs filter usage and processing results.
+UI (Windows-only, WPF)
+The frontend is built with WPF to provide a user-friendly interface for previewing, adjusting, and exporting filtered images.
+•	Live Previews: Displays both the original and filtered images side-by-side.
+•	Interactive Sliders: Adjust filter intensity in real-time.
+•	Batch Controls: Select multiple images and specify output folders.
+---
+Development Plan
+| Week | Milestone                                   | |------|--------------------------------------------| | 1    | Research adversarial filters, create repo  | | 2    | Build basic WPF UI shell, implement image loader | | 3    | Add basic filters and image saving         | | 4    | Add live filter preview and sliders        | | 5    | Implement batch image processing           | | 6    | Integrate adversarial filters              | | 7    | Add mock AI detection and classifier       | | 8    | UI polish, filter presets, export logs     | | 9    | Testing and bug fixes                      | | 10   | Record demo, finalize README, submit project |
+---
+Running the Project
+Prerequisites
+•	Windows OS: The UI is built using WPF and requires Windows to run.
+•	.NET 6+: Ensure you have the .NET SDK installed.
+Steps to Run
+1.	Clone the repository:
+
