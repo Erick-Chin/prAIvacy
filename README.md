@@ -118,4 +118,24 @@ Prerequisites
 •	.NET 6+: Ensure you have the .NET SDK installed.
 Steps to Run
 1.	Clone the repository:
+   git clone https://github.com/your-repo/prAIvacy.git
+   cd prAIvacy
+   2.	Open the solution in Visual Studio:
+•	Double-click the prAIvacy.sln file to open the project in Visual Studio.
+3.	Build and run the project:
+•	Press F5 or go to Build > Start Debugging in Visual Studio.
+4.	Use the application:
+•	Load images, adjust filter settings, and export processed images.
+---
+Usage Notes
+•	Input Folder: Use the "Browse Input Folder" button to select images for processing.
+•	Output Folder: Specify where the processed images will be saved.
+•	Filter Intensity: Adjust the slider to control the strength of the applied filters.
+•	Batch Processing: Select multiple images for simultaneous processing.
+---
+Acknowledgments
+This project is inspired by adversarial privacy research, including:
+•	Nightshade
+•	Fawkes
+Special thanks to the University of Chicago for their contributions to adversarial defense techniques.
 
