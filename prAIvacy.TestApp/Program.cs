@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using prAIvacy.Core;
 using prAIvacy.Core.Filters;
+using prAIvacy.Core;
+
 
 class Program
 {
@@ -23,8 +22,7 @@ class Program
             Directory.CreateDirectory(outputFolder);
         }
 
-        string[] imageFiles = Directory.GetFiles(inputFolder, "*.jpg"); // You can extend to *.png, etc.
-
+        string[] imageFiles = Directory.GetFiles(inputFolder, "*.jpg"); // you can extend to *.png
         if (imageFiles.Length == 0)
         {
             Console.WriteLine("⚠️ No image files found in input folder.");
@@ -36,22 +34,27 @@ class Program
         processor.AddFilter(new AdversarialNoiseFilter(0.9f));
         processor.AddFilter(new AdversarialWaveFilter(8f, 0.05f));
 
-        Console.WriteLine($"🔄 Processing {imageFiles.Length} images...\n");
+        // Make sure this matches the file extension above
+        processor.AddFilter(new FawkesFilter(
+            fawkesDir: "/Users/sathwikj/Documents/GitHub/fawkes",
+            mode: "low",
+            format: "jpg"
+        ));
 
         foreach (var imagePath in imageFiles)
         {
-            using Image<Rgba32> image = Image.Load<Rgba32>(imagePath);
+            Console.WriteLine($"\n▶️ Processing: {Path.GetFileName(imagePath)}");
 
+            using var image = Image.Load<Rgba32>(imagePath);
             processor.ApplyAll(image);
 
             string fileName = Path.GetFileNameWithoutExtension(imagePath);
-            string extension = Path.GetExtension(imagePath);
-            string outputPath = Path.Combine(outputFolder, $"{fileName}_filtered{extension}");
-
+            string outputPath = Path.Combine(outputFolder, $"{fileName}_filtered.jpg");
             image.Save(outputPath);
+
             Console.WriteLine($"✅ Saved: {outputPath}");
         }
 
-        Console.WriteLine("\n🎉 Batch filtering complete.");
+        Console.WriteLine("\n✅ Batch filtering complete.");
     }
 }
