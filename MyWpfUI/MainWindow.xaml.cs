@@ -194,16 +194,16 @@ namespace WpfApp
                 return;
             }
 
-            if (!Directory.Exists(outputFolder))
+            if (string.IsNullOrWhiteSpace(outputFolder) || !Directory.Exists(outputFolder))
             {
-                Directory.CreateDirectory(outputFolder);
+                MessageBox.Show("Please select a valid output folder before processing images.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
             // Get the filter intensity from the slider
             float filterIntensity = (float)FilterIntensitySlider.Value;
 
             var processor = new ImageProcessor();
-            //processor.AddFilter(new NoiseFilter(filterIntensity));
             processor.AddFilter(new AdversarialNoiseFilter(filterIntensity));
             processor.AddFilter(new AdversarialWaveFilter(8f, filterIntensity));
 
